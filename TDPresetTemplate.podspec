@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'Apache License', :file => 'LICENSE' }
   s.author           = { 'ThinkingData, Inc' => 'sdk@thinkingdata.cn' }
-  s.source           = { :git => 'https://github.com/ThinkingDataAnalytics/presettemplate-ios-sdk.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/ThinkingDataAnalytics/presettemplate-ios-sdk.git', :tag => "v#{s.version}" }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '9.0'
