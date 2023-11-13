@@ -23,6 +23,7 @@ Pod::Spec.new do |s|
 
   # s.public_header_files = 'Pod/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  s.dependency 'ThinkingSDK', '>= 3.0.0'
+
+  s.dependency 'ThinkingDataCore', '~> 1.0.1'
 
 end

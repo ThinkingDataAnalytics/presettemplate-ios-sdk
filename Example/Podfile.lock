@@ -1,22 +1,23 @@
 PODS:
   - TDPresetTemplate (1.0.0):
-    - ThinkingSDK (>= 3.0.0)
+    - ThinkingDataCore (~> 1.0.1)
   - ThinkingDataCore (1.0.1):
     - ThinkingDataCore/Main (= 1.0.1)
   - ThinkingDataCore/iOS (1.0.1)
   - ThinkingDataCore/Main (1.0.1):
     - ThinkingDataCore/iOS
     - ThinkingDataCore/OSX
-  - ThinkingSDK (3.0.0):
-    - ThinkingSDK/Main (= 3.0.0)
-  - ThinkingSDK/iOS (3.0.0):
+  - ThinkingSDK (3.0.1-beta.1):
+    - ThinkingSDK/Main (= 3.0.1-beta.1)
+  - ThinkingSDK/iOS (3.0.1-beta.1):
     - ThinkingDataCore (= 1.0.1)
-  - ThinkingSDK/Main (3.0.0):
+  - ThinkingSDK/Main (3.0.1-beta.1):
     - ThinkingSDK/iOS
     - ThinkingSDK/OSX
 
 DEPENDENCIES:
   - TDPresetTemplate (from `../`)
+  - ThinkingSDK (= 3.0.1-beta.1)
 
 SPEC REPOS:
   trunk:
@@ -28,10 +29,10 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  TDPresetTemplate: 1a8da417edd83266e5777a459a794b3f6c14c9e6
+  TDPresetTemplate: 684f75a2a611d843ea1de00ba93716ff232783e7
   ThinkingDataCore: 1ef8b754e80718e0533503d95045ab8a7e3ea6b3
-  ThinkingSDK: ecec6cf436519f8abbc3dcf755d929386894677d
+  ThinkingSDK: d509b57cd0438e3120eca032572a6e8d9ae77171
 
-PODFILE CHECKSUM: ef5be405b50c639e85965cf051c640d208e2ab7b
+PODFILE CHECKSUM: 0ad01e473b8d2b388733f3a68598d45bf5b43b84
 
 COCOAPODS: 1.12.0

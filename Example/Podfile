@@ -14,4 +14,6 @@ target 'PresetTemplateDemo' do
   pod 'TDPresetTemplate', :path => '../'
 #  pod 'TDPresetTemplate', '0.0.1-test.3'
 
+  pod 'ThinkingSDK', '3.0.1-beta.1'
+
 end

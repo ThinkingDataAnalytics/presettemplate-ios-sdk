@@ -12,7 +12,10 @@
 #import <ThinkingDataCore/TAModuleProtocol.h>
 #import <ThinkingDataCore/TAContext.h>
 
-#import <ThinkingSDK/ThinkingSDK.h>
+//#if __has_include(<ThinkingSDK/ThinkingSDK.h>)
+//#import <ThinkingSDK/ThinkingSDK.h>
+//#define TDAnalyticsAvailably 1
+//#endif
 
 #import "TDPresetTemplate.h"
 
@@ -23,6 +26,7 @@ static NSString * const kTDAnalyticsEventDeviceActivation = @"TDAnalyticsDeviceA
 static NSString * const TD_NEW_DEVICE_EVENT = @"ta_new_device";
 
 ThinkingMod(TDPresetTemplateModule)
+//char * kTDPresetTemplateModule_mod __attribute((used, section("__DATA, ThinkingMods"))) = "TDPresetTemplateModule";
 @interface TDPresetTemplateModule () <TAModuleProtocol>
 
 @end
@@ -44,15 +48,38 @@ ThinkingMod(TDPresetTemplateModule)
 }
 
 - (void)trackDeviceActivation {
-    NSString *firstCheckId = [TDAnalytics getDeviceId];
-    TDFirstEventModel *eventModel = [[TDFirstEventModel alloc] initWithEventName:TD_NEW_DEVICE_EVENT
-                                                                    firstCheckID:firstCheckId];
-    [TDAnalytics trackWithEventModel:eventModel];
+    Class c_TDAnalytics = NSClassFromString(@"TDAnalytics");
+    if (c_TDAnalytics == nil) NSLog(@"TDAnalytics SDK is not found, you need to import TDAnalytics SDK first.");
+    SEL s_getDeviceId = NSSelectorFromString(@"getDeviceId");
+    SEL s_trackWithEventModel = NSSelectorFromString(@"trackWithEventModel:");
+    Class c_TDFirstEventModel = NSClassFromString(@"TDFirstEventModel");
+    SEL s_initWithEventName_firstCheckID = NSSelectorFromString(@"initWithEventName:firstCheckID:");
+    if ([c_TDAnalytics respondsToSelector:s_getDeviceId]
+        && [c_TDAnalytics respondsToSelector:s_trackWithEventModel]
+        && [c_TDFirstEventModel respondsToSelector:s_initWithEventName_firstCheckID]) {
+        NSString *firstCheckId = [c_TDAnalytics performSelector:s_getDeviceId];
+        id eventModel = [[c_TDFirstEventModel alloc] performSelector:s_initWithEventName_firstCheckID withObject:TD_NEW_DEVICE_EVENT withObject:firstCheckId];
+        [c_TDAnalytics performSelector:s_trackWithEventModel withObject:eventModel];
+    }
 }
 
 - (void)enableAutoTrack {
     if ([TDPresetTemplate getEnableAutoTrackManually] == NO) {
-        [TDAnalytics enableAutoTrack:TDAutoTrackEventTypeAppInstall | TDAutoTrackEventTypeAppStart | TDAutoTrackEventTypeAppEnd | TDAutoTrackEventTypeAppViewCrash];
+        Class c_TDAnalytics = NSClassFromString(@"TDAnalytics");
+        if (c_TDAnalytics == nil) NSLog(@"TDAnalytics SDK is not found, you need to import TDAnalytics SDK first.");
+        SEL s_enableAutoTrack = NSSelectorFromString(@"enableAutoTrack:");
+        if ([c_TDAnalytics respondsToSelector:s_enableAutoTrack]) {
+            // TDAutoTrackEventTypeAppInstall
+            // | TDAutoTrackEventTypeAppStart
+            // | TDAutoTrackEventTypeAppEnd
+            // | TDAutoTrackEventTypeAppViewCrash
+            NSInteger autoTrackType = 51;
+            NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[c_TDAnalytics methodSignatureForSelector:s_enableAutoTrack]];
+            [inv setSelector:s_enableAutoTrack];
+            [inv setTarget:c_TDAnalytics];
+            [inv setArgument:&(autoTrackType) atIndex:2];
+            [inv performSelector:@selector(invoke)];
+        }
     }
 }
 

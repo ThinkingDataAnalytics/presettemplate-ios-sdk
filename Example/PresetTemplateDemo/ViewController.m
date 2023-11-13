@@ -6,7 +6,9 @@
 //
 
 #import "ViewController.h"
+#if __has_include(<ThinkingSDK/ThinkingSDK.h>)
 #import <ThinkingSDK/ThinkingSDK.h>
+#endif
 #import <TDPresetTemplate/TDPresetTemplate.h>
 
 @interface ViewController ()
@@ -38,17 +40,18 @@
         [btn addTarget:self action:s forControlEvents:UIControlEventTouchUpInside];
         [btn setFrame:CGRectMake(50, 80*i+100, 300, 60)];
     }
-
-    NSLog(@"TDPresetTemplateVersionNumber = %f", TDPresetTemplateVersionNumber);
-    NSLog(@"TDPresetTemplateVersionString = %s", TDPresetTemplateVersionString);
 }
 
 - (void)initTDAnalytics_onClick:(UIButton *)sender {
+#if __has_include(<ThinkingSDK/ThinkingSDK.h>)
     [TDAnalytics enableLog:YES];
     NSString *appId = @"7be5326f9f4a4e48933dbf2579367901";
     NSString *serverUrl = @"https://receiver-ta-preview.thinkingdata.cn";
     TDConfig *config = [[TDConfig alloc] initWithAppId:appId serverUrl:serverUrl];
     [TDAnalytics startAnalyticsWithConfig:config];
+#else
+    NSLog(@"未引入 TDAnalytics SDK");
+#endif
 }
 - (void)trackRegister_onClick:(UIButton *)sender {
     TDRegisterEventModel *eventModel = [TDRegisterEventModel new];
@@ -80,6 +83,10 @@
     [TDPresetTemplate trackPayment:eventModel];
 }
 - (void)flush_onClick:(UIButton *)sender {
+#if __has_include(<ThinkingSDK/ThinkingSDK.h>)
     [TDAnalytics flush];
+#else
+    NSLog(@"未引入 TDAnalytics SDK");
+#endif
 }
 @end
